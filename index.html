@@ -1,0 +1,162 @@
+﻿
+<html>
+	<head>
+		<title>
+			pure-knob: Test
+		</title>
+		<script src="pureknob.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			// <![CDATA[
+
+			/*
+			 * Demo code for knob element.
+			 */
+			function demoKnob1() {
+				// Create knob element, 300 x 300 px in size.
+				const knob = pureknob.createKnob(300, 300);
+
+				// Set properties.
+				knob.setProperty('angleStart', -0.75 * Math.PI);
+				knob.setProperty('angleEnd', 0.75 * Math.PI);
+				knob.setProperty('colorFG', '#88ff88');
+				knob.setProperty('trackWidth', 0.4);
+				knob.setProperty('valMin', 0);
+				knob.setProperty('valMax', 100);
+
+				var api_key = "04JO9LMXGEQYNGJG";
+				var url = "https://api.thingspeak.com/channels/2052369/fields/1/last.json?api_key=" + api_key;
+
+				// Replace CHANNEL_ID and FIELD_NUMBER with your own values
+
+				$.getJSON(url, function(data) {
+				var temperature = data.field1;
+				var bpm=data.field2;
+				var oxi=data.field3;
+				knob.setValue(temperature);
+				
+				
+				// Code to display the temperature data in the gauge
+				});
+
+				// Set initial value.
+				const listener = function(knob, value) {
+					console.log(value);
+				};
+
+				knob.addListener(listener);
+
+				// Create element node.
+				const node = knob.node();
+
+				// Add it to the DOM.
+				const elem = document.getElementById('temp');
+				elem.appendChild(node);
+			}
+
+
+			function demoKnob2() {
+				// Create knob element, 300 x 300 px in size.
+				const knob = pureknob.createKnob(300, 300);
+
+				// Set properties.
+				knob.setProperty('angleStart', -0.75 * Math.PI);
+				knob.setProperty('angleEnd', 0.75 * Math.PI);
+				knob.setProperty('colorFG', 'cyan');
+				knob.setProperty('trackWidth', 0.4);
+				knob.setProperty('valMin', 0);
+				knob.setProperty('valMax', 300);
+
+				var api_key = "04JO9LMXGEQYNGJG";
+				var url = "https://api.thingspeak.com/channels/2052369/fields/2/last.json?api_key=" + api_key;
+
+				// Replace CHANNEL_ID and FIELD_NUMBER with your own values
+
+				$.getJSON(url, function(data) {
+				var bpm = data.field2;
+				knob.setValue(bpm);
+				
+				
+				// Code to display the temperature data in the gauge
+				});
+
+				// Set initial value.
+				const listener = function(knob, value) {
+					console.log(value);
+				};
+
+				knob.addListener(listener);
+
+				// Create element node.
+				const node = knob.node();
+
+				// Add it to the DOM.
+				const elem = document.getElementById('bpm');
+				elem.appendChild(node);
+			}
+
+
+			function demoKnob3() {
+				// Create knob element, 300 x 300 px in size.
+				const knob = pureknob.createKnob(300, 300);
+
+				// Set properties.
+				knob.setProperty('angleStart', -0.75 * Math.PI);
+				knob.setProperty('angleEnd', 0.75 * Math.PI);
+				knob.setProperty('colorFG', 'pink');
+				knob.setProperty('label', 'My Knob');
+				knob.setProperty('trackWidth', 0.4);
+				knob.setProperty('valMin', 0);
+				knob.setProperty('valMax', 100);
+
+				var api_key = "04JO9LMXGEQYNGJG";
+				var url = "https://api.thingspeak.com/channels/2052369/fields/3/last.json?api_key=" + api_key;
+
+				// Replace CHANNEL_ID and FIELD_NUMBER with your own values
+
+				$.getJSON(url, function(data) {
+				var oxi=data.field3;
+				knob.setValue(oxi);
+				
+				
+				// Code to display the temperature data in the gauge
+				});
+
+				// Set initial value.
+				const listener = function(knob, value) {
+					console.log(value);
+				};
+
+				knob.addListener(listener);
+
+				// Create element node.
+				const node = knob.node();
+
+				// Add it to the DOM.
+				const elem = document.getElementById('oxi');
+				elem.appendChild(node);
+
+			}
+
+			function ready() {
+				/*setInterval("showTime()", 1000);*/
+				demoKnob1();
+				demoKnob2();
+				demoKnob3();
+			}
+
+			document.addEventListener('DOMContentLoaded', ready, false);
+			// ]]>
+		</script>
+	</head>
+	<body>
+		<div >
+			<h1>Health Monitoring System</h1>
+			<div style="display: flex;align-items: center;justify-content: space-between;margin: 10%;">
+				<div id="temp"></div>
+				<div id="bpm"></div>
+				<div id="oxi"></div>
+			</div>
+		</div>
+	</body>
+</html>
