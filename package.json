@@ -1,0 +1,22 @@
+{
+  "name": "sensor-lab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abhip32/Health_Monitoring_System_IOT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abhip32/Health_Monitoring_System_IOT/issues"
+  },
+  "homepage": "https://github.com/Abhip32/Health_Monitoring_System_IOT#readme",
+  "dependencies": {
+    "nodemailer": "^6.9.1"
+  }
+}
