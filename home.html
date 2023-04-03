@@ -185,6 +185,14 @@ SPo2 monitoring is a non-invasive way of measuring the amount of oxygen in the b
   <script src="js/custom.js"></script>
   <!-- Google Map -->
   </script>
+  <script>
+    var name =sessionStorage.getItem("name");
+    if(name=="null")
+    {
+      console.log(name);
+      window.location="https://abhip32.github.io/Health_Monitoring_System_IOT/"
+    }
+  </script>
   <!-- End Google Map -->
 </body>
 
