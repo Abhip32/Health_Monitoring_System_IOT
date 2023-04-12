@@ -1,14 +1,9 @@
-#include "ThingSpeak.h"
-#include <ESP8266WiFi.h>
-#include <Wire.h>
 #include "MAX30100_PulseOximeter.h"
-#define REPORTING_PERIOD_MS 1000
-
-// Create a PulseOximeter object
-PulseOximeter pox;
-int outputpin= A0;
-// Time at which the last beat occurred
-uint32_t tsLastReport = 0;
+#include <ezButton.h>
+#include <ESP8266WiFi.h>
+#include "ThingSpeak.h"
+bool take=true;
+#define REPORTING_PERIOD_MS     100
 
 //----------- Enter you Wi-Fi Details---------//
 char ssid[] = "Redmi";     //SSID
@@ -22,14 +17,31 @@ const int FieldNumberTemp = 1;
 const int FieldNumberBPM = 2;
 const int FieldNumberOXI = 3;
 const char* myWriteAPIKey = "GSNDTRVHC7K6GXV1";  // Your Write API Key here
-String temp="";
 
+
+int i=1;
+float avgBPM=0;
+uint8_t avgSP=0;
+String Temp="0";
+
+#define REPORTING_PERIOD_MS     1000
+
+// Create a PulseOximeter object
+PulseOximeter pox;
+
+// Time at which the last beat occurred
+uint32_t tsLastReport = 0;
+
+// Callback routine is executed when a pulse is detected
+void onBeatDetected() {
+    Serial.println("Beat!");
+}
 
 void setup() {
     Serial.begin(9600);
-      while (!Serial) {
-      ; // wait for serial port to connect. Needed for native USB port only
-      }
+
+    Serial.print("Initializing pulse oximeter..");
+
     // Initialize sensor
     if (!pox.begin()) {
         Serial.println("FAILED");
@@ -38,12 +50,9 @@ void setup() {
         Serial.println("SUCCESS");
     }
 
-    while (!Serial) {
-        ; // wait for serial port to connect. Needed for native USB port only
-        }
-  // Configure sensor to use 7.6mA for LED drive
-  pox.setIRLedCurrent(MAX30100_LED_CURR_7_6MA);
-  WiFi.mode(WIFI_STA);
+    // Register a callback routine
+    pox.setOnBeatDetectedCallback(onBeatDetected);
+    WiFi.mode(WIFI_STA);
   ThingSpeak.begin(client);
 }
 
@@ -59,22 +68,31 @@ void loop() {
     Serial.println("\nConnected.");
   }
 
-  
-  pox.update();
 
-   if (millis() - tsLastReport > REPORTING_PERIOD_MS) {
-      temp=Serial.read();
-      ThingSpeak.writeField(myChannelNumber, FieldNumberTemp,temp, myWriteAPIKey);
-      Serial.print("in DegreeC=   ");
-      Serial.println(temp);
+    pox.update();
 
-    String bp=String(pox.getHeartRate()/3);
-    Serial.println("BPM"+bp);
-    ThingSpeak.writeField(myChannelNumber, FieldNumberBPM, bp, myWriteAPIKey);
-    String op=String(pox.getSpO2());
-    Serial.println("OXI"+op);
-    ThingSpeak.writeField(myChannelNumber, FieldNumberOXI, op, myWriteAPIKey);
+    // Grab the updated heart rate and SpO2 levels
+    if (millis() - tsLastReport > REPORTING_PERIOD_MS) {
+        float BPM=pox.getHeartRate();
+        Serial.print("Heart rate:");
+        Serial.print(BPM);
+        Serial.print("bpm / SpO2:");
+        uint8_t SPO2=pox.getSpO2();
+        Serial.print(SPO2);
+        Serial.println("%");
+       if(BPM!=0.0 && SPO2>=80)
+       {
+          Temp=Serial.readStringUntil('\n');
+          Serial.println(Temp);
+          ThingSpeak.writeField(myChannelNumber, FieldNumberBPM, BPM, myWriteAPIKey);
+          ThingSpeak.writeField(myChannelNumber, FieldNumberOXI, SPO2, myWriteAPIKey);
+          ThingSpeak.writeField(myChannelNumber, FieldNumberTemp,Temp , myWriteAPIKey);
+       }
+        tsLastReport = millis();
+    }
 
-    tsLastReport = millis();
-  }
+
+    
+
+
 }
