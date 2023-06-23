@@ -14,30 +14,10 @@
             <div class="login-main">
                 <img class="logo" src="https://healthbuddy.plus/img/logo-big.5aa51feb.png" alt="SmartSave">
                 <h1>Welcome Back</h1>
-                <p>Welcome Back , Please enter Your details</p>
             </div>
 
-            <div class="form-detalis">
-    
-                <div class="input-main">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16"> <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/> </svg>
-                    <div class="be-main"></div>
-                    <div class="input-box">
-                        <input type="text" class="input" required id="email">
-                        <label for="#">Email Address</label>
-                    </div>
-                </div>
-
-                <div class="input-main">
-                    <svg width="24" height="24" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M21 13V8C21 6.89543 20.1046 6 19 6H5C3.89543 6 3 6.89543 3 8V14C3 15.1046 3.89543 16 5 16H12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/> <path d="M14.5 18.5L16.5 20.5L20.5 16.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/> <path d="M12 11.01L12.01 10.9989" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/> <path d="M16 11.01L16.01 10.9989" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/> <path d="M8 11.01L8.01 10.9989" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/> </svg>
-                    <div class="be-main"></div>
-                    <div class="input-box">
-                        <input type="password" class="input" required id="password">
-                        <label for="#">Password</label>
-                    </div>
-                </div>
-            </div>
-            <button class="continue" onclick="login()">Login</button>
+           
+            <button class="continue" onclick="login()">Continue</button>
             <p class="paragraph-description">Health at your finger tips</p>
         </div>
     </div>
@@ -46,16 +26,9 @@
 <script>
     function login()
     {
-        if(document.getElementById("email").value=="abhishek.a.patil112@gmail.com"&&document.getElementById("password").value=="1234")
-        {
-            console.log("Success");
+       
             window.location="https://abhip32.github.io/Health_Monitoring_System_IOT/home"
-            sessionStorage.setItem("name", "abhishek");
-        }
-        else
-        {
-            alert("Wrong Credentials");
-        }
+
     }
 </script>
 </html>
